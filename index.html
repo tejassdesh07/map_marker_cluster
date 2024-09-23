@@ -4,63 +4,15 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Google Maps Marker Clustering</title>
-    <script src="https://maps.googleapis.com/maps/api/js?key=AIzaSyCQuoMzPyQ64hGHihyH1xdKyxE528HAAyU" async defer></script>
+    <script src="https://maps.googleapis.com/maps/api/js?key=AIzaSyCQuoMzPyQ64hGHihyH1xdKyxE528HAAyU&callback=initMap" async defer></script>
     <script>
-        async function initMap() {
-            const { Map, InfoWindow } = await google.maps.importLibrary("maps");
-            const { AdvancedMarkerElement, PinElement } = await google.maps.importLibrary("marker");
-            const { MarkerClusterer } = await google.maps.importLibrary("marker"); // Include MarkerClusterer
-
-            const map = new Map(document.getElementById("map"), {
-                zoom: 3,
-                center: { lat: -28.024, lng: 140.887 },
-                mapId: "DEMO_MAP_ID", // Replace with your actual map ID if needed
-            });
-
-            const infoWindow = new InfoWindow({
-                content: "",
-                disableAutoPan: true,
-            });
-
-            // Define locations for markers
-            const locations = [
-                { lat: -31.56391, lng: 147.154312 },
-                { lat: -33.718234, lng: 150.363181 },
-                { lat: -33.727111, lng: 150.371124 },
-                { lat: -33.848588, lng: 151.209834 },
-                { lat: -34.671264, lng: 150.863657 },
-                { lat: -36.817685, lng: 175.699196 },
-                { lat: -37.819616, lng: 144.968119 },
-                { lat: -39.927193, lng: 175.053218 },
-            ];
-
-            // Create markers
-            const labels = "ABCDEFGHIJKLMNOPQRSTUVWXYZ";
-            const markers = locations.map((position, i) => {
-                const label = labels[i % labels.length];
-                const pinGlyph = new PinElement({
-                    glyph: label,
-                    glyphColor: "white",
-                });
-                const marker = new AdvancedMarkerElement({
-                    position,
-                    content: pinGlyph.element,
-                });
-
-                marker.addListener("click", () => {
-                    infoWindow.setContent(position.lat + ", " + position.lng);
-                    infoWindow.open(map, marker);
-                });
-
-                return marker;
-            });
-
-            // Add a marker clusterer to manage the markers.
-            new MarkerClusterer({ markers, map });
-        }
-
-        // Ensure the map is initialized when the window loads
-        window.onload = initMap;
+        // Define the initMap function in the global scope
+        window.initMap = function() {
+            // Load the module after the map has initialized
+            import("./index.js")
+                .then(module => module.initMap())
+                .catch(err => console.error("Error loading module:", err));
+        };
     </script>
     <style>
         /* Full height for the map */
