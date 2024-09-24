@@ -9,6 +9,6 @@
     "@weweb/cli": "latest"
   },
   "dependencies": {
-    "@googlemaps/markerclusterer": "^3.1.0"
+    "@googlemaps/markerclusterer": "^2.5.3"
   }
 }
