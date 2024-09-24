@@ -5,6 +5,8 @@
 </template>
 
 <script>
+import { MarkerClusterer } from '@googlemaps/markerclusterer'; // Import MarkerClusterer if not done already
+
 export default {
   props: {
     content: { type: Object, required: true },
@@ -30,7 +32,6 @@ export default {
     markerOptions() {
       return {
         icon: this.content.markerIcon || null,
-        tooltip: this.content.tooltipText || null,
       };
     },
   },
@@ -48,9 +49,8 @@ export default {
   methods: {
     initMap() {
       this.map = new google.maps.Map(this.$refs.mapElement, this.mapOptions);
-
-      // Add markers and clustering if enabled
       this.addMarkers();
+
       if (this.content.enableMarkerClustering) {
         this.markerCluster = new MarkerClusterer(this.map, this.markers, {
           imagePath: 'https://developers.google.com/maps/documentation/javascript/examples/markerclusterer/m',
@@ -64,7 +64,7 @@ export default {
           position: { lat: location.lat, lng: location.lng },
           map: this.map,
           icon: this.markerOptions.icon,
-          title: this.markerOptions.tooltip,
+          title: location.name || '', // Set the marker title to the name if provided
         });
         this.markers.push(marker);
       });
