@@ -1,10 +1,10 @@
 export default {
-  // Maker icon (on/off)
-  // if (prev = on) Maker auto size (on/off)
-  // if Icon URL
-  // if (!auto) Icon width (d=50)
-  // if (!auto) Icon height (d=50)
-  // if (w||h not int) auto
+  // Marker icon (on/off)
+  // If (prev === 'on') Marker auto size (on/off)
+  // If icon URL
+  // If (!auto) Icon width (default = 50)
+  // If (!auto) Icon height (default = 50)
+  // If width or height is not an integer, auto-size will be applied
   options: {
       sizable: true,
   },
@@ -167,39 +167,21 @@ export default {
           type: 'Image',
           bindable: true,
           options: { nullable: true },
-          /* wwEditor:start */
           hidden: (content, _sidepanelContent, boundProps) => !content.markersIcon,
-          bindingValidation: {
-              type: 'string',
-              tooltip: 'A string that represents the icon url: `"https://.../.../my_image.png"`',
-          },
-          /* wwEditor:end */
       },
       defaultMarkerWidth: {
           label: 'Width',
           type: 'Number',
           bindable: true,
           options: { min: 0, step: 1, defaultValue: 40 },
-          /* wwEditor:start */
           hidden: (content, _sidepanelContent, boundProps) => !content.markersIcon || content.markersAutoSize,
-          bindingValidation: {
-              type: 'number',
-              tooltip: 'A number that defines the width of the icon: `40`',
-          },
-          /* wwEditor:end */
       },
       defaultMarkerHeight: {
           label: 'Height',
           type: 'Number',
           bindable: true,
           options: { min: 0, step: 1, defaultValue: 40 },
-          /* wwEditor:start */
           hidden: (content, _sidepanelContent, boundProps) => !content.markersIcon || content.markersAutoSize,
-          bindingValidation: {
-              type: 'number',
-              tooltip: 'A number that defines the height of the icon: `40`',
-          },
-          /* wwEditor:end */
       },
       mapStyleJSON: {
           hidden: content => content.mapStyle !== 'custom' || content.defaultMapType === 'satellite',
@@ -218,12 +200,6 @@ export default {
           },
           defaultValue: '',
           bindable: true,
-          /* wwEditor:start */
-          bindingValidation: {
-              type: 'string',
-              tooltip: 'A string that represents the API key: `"key********************"`',
-          },
-          /* wwEditor:end */
       },
       lat: {
           section: 'settings',
@@ -234,12 +210,6 @@ export default {
           },
           defaultValue: '40.712784',
           bindable: true,
-          /* wwEditor:start */
-          bindingValidation: {
-              type: 'string',
-              tooltip: 'A string that defines the latitue: `"40.712784"`',
-          },
-          /* wwEditor:end */
       },
       lng: {
           section: 'settings',
@@ -250,12 +220,6 @@ export default {
           },
           defaultValue: '-74.005941',
           bindable: true,
-          /* wwEditor:start */
-          bindingValidation: {
-              type: 'string',
-              tooltip: 'A string that defines the longitude: `"15.347554"`',
-          },
-          /* wwEditor:end */
       },
       zoom: {
           section: 'settings',
@@ -268,12 +232,6 @@ export default {
           },
           defaultValue: 11,
           bindable: true,
-          /* wwEditor:start */
-          bindingValidation: {
-              type: 'number',
-              tooltip: 'A number that defines the zoom: `11`',
-          },
-          /* wwEditor:end */
       },
       markers: {
           section: 'settings',
@@ -306,41 +264,19 @@ export default {
                               type: 'Image',
                               bindable: true,
                               options: { nullable: true },
-                              /* wwEditor:start */
                               hidden: (content, _sidepanelContent, boundProps) => !content.markersIcon,
-                              bindingValidation: {
-                                  type: 'string',
-                                  tooltip: 'A string that represents the icon url: `"https://.../.../my_image.png"`',
-                              },
-                              /* wwEditor:end */
                           },
                           width: {
                               label: 'Width',
                               type: 'Number',
-                              bindable: true,
                               options: { min: 0, step: 1, defaultValue: 40 },
-                              /* wwEditor:start */
-                              hidden: (content, _sidepanelContent, boundProps) =>
-                                  !content.markersIcon || content.markersAutoSize,
-                              bindingValidation: {
-                                  type: 'number',
-                                  tooltip: 'A number that defines the width of the icon: `40`',
-                              },
-                              /* wwEditor:end */
+                              hidden: (content, _sidepanelContent, boundProps) => content.markersAutoSize,
                           },
                           height: {
                               label: 'Height',
                               type: 'Number',
-                              bindable: true,
                               options: { min: 0, step: 1, defaultValue: 40 },
-                              /* wwEditor:start */
-                              hidden: (content, _sidepanelContent, boundProps) =>
-                                  !content.markersIcon || content.markersAutoSize,
-                              bindingValidation: {
-                                  type: 'number',
-                                  tooltip: 'A number that defines the height of the icon: `40`',
-                              },
-                              /* wwEditor:end */
+                              hidden: (content, _sidepanelContent, boundProps) => content.markersAutoSize,
                           },
                       },
                   },
@@ -348,177 +284,70 @@ export default {
           },
           defaultValue: [
               { name: 'New York', lat: 40.712784, lng: -74.005941 },
-              { name: 'Brooklin', lat: 40.650002, lng: -73.949997 },
+              { name: 'Los Angeles', lat: 34.052234, lng: -118.243685 },
+              { name: 'Chicago', lat: 41.878114, lng: -87.629798 },
           ],
-          /* wwEditor:start */
-          bindingValidation: {
-              type: 'array',
-              tooltip:
-                  'A collection of data in array format: \n\n `[{}, {}, ...] || ["string1", "string2", ...] || [1, 2, ...]`',
-          },
-          /* wwEditor:end */
-      },
-      hintFields: {
-          hidden: (content, sidepanelContent, boundProps) => !boundProps.markers || content.markers,
-          label: {
-              en: 'Marker fields',
-              fr: 'Champs du marker',
-          },
-          type: 'Info',
-          options: {
-              text: { en: 'Please provide at least one marker to configure fields' },
-          },
-          editorOnly: true,
-          section: 'settings',
       },
       nameField: {
-          hidden: (content, sidepanelContent, boundProps) => !boundProps.markers || !content.markers,
-          label: {
-              en: 'Marker name field',
-              fr: 'Marker name field',
-          },
-          type: 'ObjectPropertyPath',
-          options: content => {
-              if (!content.markers.length || typeof content.markers[0] !== 'object') {
-                  return null;
-              }
-
-              return { object: content.markers[0] };
-          },
-          defaultValue: null,
           section: 'settings',
+          label: { en: 'Name field', fr: 'Nom' },
+          type: 'Text',
+          options: { placeholder: 'Name' },
+          defaultValue: 'name',
       },
       latField: {
-          hidden: (content, sidepanelContent, boundProps) => !boundProps.markers || !content.markers,
-          label: {
-              en: 'Marker lat. field',
-              fr: 'Marker lat. field',
-          },
-          type: 'ObjectPropertyPath',
-          options: content => {
-              if (!content.markers.length || typeof content.markers[0] !== 'object') {
-                  return null;
-              }
-
-              return { object: content.markers[0] };
-          },
-          defaultValue: null,
           section: 'settings',
+          label: { en: 'Latitude field', fr: 'Latitude' },
+          type: 'Text',
+          options: { placeholder: 'Latitude' },
+          defaultValue: 'lat',
       },
       lngField: {
-          hidden: (content, sidepanelContent, boundProps) => !boundProps.markers || !content.markers,
-          label: {
-              en: 'Marker long. field',
-              fr: 'Marker long. field',
-          },
-          type: 'ObjectPropertyPath',
-          options: content => {
-              if (!content.markers.length || typeof content.markers[0] !== 'object') {
-                  return null;
-              }
-
-              return { object: content.markers[0] };
-          },
-          defaultValue: null,
           section: 'settings',
-      },
-      urlField: {
-          hidden: (content, sidepanelContent, boundProps) =>
-              !boundProps.markers || !content.markers || !content.markersIcon,
-          label: 'Marker icon field',
-          type: 'ObjectPropertyPath',
-          options: content => {
-              return !content.markers.length || typeof content.markers[0] !== 'object'
-                  ? null
-                  : { object: content.markers[0] };
-          },
-          defaultValue: null,
-          section: 'settings',
+          label: { en: 'Longitude field', fr: 'Longitude' },
+          type: 'Text',
+          options: { placeholder: 'Longitude' },
+          defaultValue: 'lng',
       },
       widthField: {
-          hidden: (content, sidepanelContent, boundProps) =>
-              !boundProps.markers || !content.markers || !content.markersIcon || content.markersAutoSize,
-          label: 'Marker width field',
-          type: 'ObjectPropertyPath',
-          options: content => {
-              return !content.markers.length || typeof content.markers[0] !== 'object'
-                  ? null
-                  : { object: content.markers[0] };
-          },
-          defaultValue: null,
           section: 'settings',
+          label: { en: 'Marker width', fr: 'Width' },
+          type: 'Text',
+          options: { placeholder: 'Width' },
+          defaultValue: 'width',
+          hidden: content => content.markersAutoSize,
       },
       heightField: {
-          hidden: (content, sidepanelContent, boundProps) =>
-              !boundProps.markers || !content.markers || !content.markersIcon || content.markersAutoSize,
-          label: 'Marker height field',
-          type: 'ObjectPropertyPath',
-          options: content => {
-              return !content.markers.length || typeof content.markers[0] !== 'object'
-                  ? null
-                  : { object: content.markers[0] };
-          },
-          defaultValue: null,
           section: 'settings',
-      },
-      markerTooltipTrigger: {
-          label: {
-              en: 'Marker tooltip trigger',
-              fr: 'Déclencheur infobox',
-          },
-          type: 'TextSelect',
-          options: {
-              options: [
-                  { value: null, label: 'None' },
-                  { value: 'hover', label: 'Hover' },
-                  { value: 'click', label: 'Click' },
-              ],
-          },
-          defaultValue: 'hover',
-          section: 'settings',
+          label: { en: 'Marker height', fr: 'Height' },
+          type: 'Text',
+          options: { placeholder: 'Height' },
+          defaultValue: 'height',
+          hidden: content => content.markersAutoSize,
       },
       fixedBounds: {
-          label: { en: 'Fixed markers bounds', fr: 'Fixed markers bounds' },
-          type: 'OnOff',
           section: 'settings',
-          defaultValue: true,
+          label: { en: 'Fixed bounds', fr: 'Limites fixes' },
+          type: 'OnOff',
+          defaultValue: false,
       },
-
-      zoomControl: {
-          label: { en: 'Zoom control', fr: 'Zoom control' },
-          type: 'OnOff',
+      hintFields: {
           section: 'settings',
-          defaultValue: true,
+          label: { en: 'Hint fields', fr: 'Champs de tooltip' },
+          type: 'Array',
+          defaultValue: ['name', 'lat', 'lng'],
       },
-      scaleControl: {
-          label: { en: 'Scale control', fr: 'Scale control' },
-          type: 'OnOff',
+      markerTooltipTrigger: {
           section: 'settings',
-          defaultValue: true,
-      },
-      rotateControl: {
-          label: { en: 'Rotate control', fr: 'Rotate control' },
-          type: 'OnOff',
-          section: 'settings',
-          defaultValue: true,
-      },
-      streetViewControl: {
-          label: { en: 'Street View control', fr: 'Street View control' },
-          type: 'OnOff',
-          section: 'settings',
-          defaultValue: true,
-      },
-      fullscreenControl: {
-          label: { en: 'Fullscreen control', fr: 'Fullscreen control' },
-          type: 'OnOff',
-          section: 'settings',
-          defaultValue: true,
-      },
-      mapTypeControl: {
-          label: { en: 'Map Type control', fr: 'Map Type control' },
-          type: 'OnOff',
-          section: 'settings',
-          defaultValue: true,
+          label: { en: 'Tooltip trigger', fr: 'Déclencheur tooltip' },
+          type: 'TextSelect',
+          defaultValue: 'hover',
+          options: {
+              options: [
+                  { value: 'hover', label: { en: 'Hover', fr: 'Survol' } },
+                  { value: 'click', label: { en: 'Click', fr: 'Clic' } },
+              ],
+          },
       },
   },
-};
+}
